@@ -1,15 +1,30 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { enableScreens } from "react-native-screens";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+import { Provider } from "react-redux";
 
 import { NavigationContainer } from "@react-navigation/native";
 import MainNavigator from "./navigators/MainNavigator";
+
+import placeReducer from "./stores/place-reducer";
+
+enableScreens();
+
+export const rootReducer = combineReducers({
+    place: placeReducer,
+});
+export const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
     return (
         <NavigationContainer>
             <StatusBar style="auto" />
-            <MainNavigator />
+            <Provider store={store}>
+                <MainNavigator />
+            </Provider>
         </NavigationContainer>
     );
 }

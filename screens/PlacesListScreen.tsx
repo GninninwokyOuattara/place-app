@@ -2,12 +2,13 @@ import React, { useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import Icon from "@expo/vector-icons/Ionicons";
 
-import { NavProps } from "../types";
+import { useSelector } from "react-redux";
+import { RootState, NavProps } from "../types";
+
+import PlaceList from "../components/PlaceList";
 
 const PlacesListScreen: React.FC<NavProps> = ({ navigation }) => {
-    // navigation.setOptions({
-    //     headerTitle: "All Places",
-    // });
+    const { places } = useSelector((state: RootState) => state.place);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -26,6 +27,7 @@ const PlacesListScreen: React.FC<NavProps> = ({ navigation }) => {
     return (
         <View>
             <Text>PlacesListScreen</Text>
+            <PlaceList places={places} />
             <Button
                 title="Go to details"
                 onPress={() => navigation.navigate("PlaceDetails")}

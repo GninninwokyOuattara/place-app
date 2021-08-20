@@ -6,12 +6,16 @@ import MapScreen from "../screens/MapScreen";
 import NewPlaceScreen from "../screens/NewPlaceScreen";
 import PlaceDetailScreen from "../screens/PlaceDetailScreen";
 import PlacesListScreen from "../screens/PlacesListScreen";
+import Colors from "../constants/Colors";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
 const MainNavigator = () => {
     return (
-        <RootStack.Navigator initialRouteName={"Home"}>
+        <RootStack.Navigator
+            initialRouteName={"Home"}
+            screenOptions={{ headerTintColor: Colors.primary }}
+        >
             <RootStack.Screen name="Home" component={PlacesListScreen} />
             <RootStack.Screen
                 name="PlaceDetails"
