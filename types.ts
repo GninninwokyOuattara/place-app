@@ -7,14 +7,17 @@ import { store } from "./App";
 
 export type RootStackParamList = {
     Home: undefined;
-    PlaceDetails: undefined;
+    PlaceDetails: { placeTitle: string; placeId: string } | undefined;
     NewPlace: undefined;
     Map: undefined;
 };
 
-type ScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
+export type ScreenNavigationProp = StackNavigationProp<
+    RootStackParamList,
+    "Home"
+>;
 
-type ScreenRouteProp = RouteProp<RootStackParamList, "Home">;
+export type ScreenRouteProp = RouteProp<RootStackParamList, "Home">;
 
 export type NavProps = {
     navigation: ScreenNavigationProp;
@@ -31,4 +34,8 @@ export interface PlaceState {
 export interface ReducerActionsParams {
     type: string;
     place: Place;
+}
+export interface ReducerActionsParamsList {
+    type: string;
+    places: Place[];
 }

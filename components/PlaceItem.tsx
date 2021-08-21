@@ -1,22 +1,35 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Place } from "../models/Place";
+import { ScreenNavigationProp } from "../types";
 
 interface props {
     place: Place;
+    navigation: ScreenNavigationProp;
 }
 
-const PlaceItem: React.FC<props> = ({ place }) => {
+const PlaceItem: React.FC<props> = ({ place, navigation }) => {
     return (
-        <View style={styles.itemContainer}>
-            <Image
-                style={styles.image}
-                source={{
-                    uri: "https://snack-web-player.s3.us-west-1.amazonaws.com/v2/42/static/media/react-native-logo.79778b9e.png",
-                }}
-            />
-            <Text style={styles.header}>{place.title}</Text>
-        </View>
+        <TouchableOpacity
+            onPress={() =>
+                navigation.navigate("PlaceDetails", {
+                    placeId: place.id,
+                    placeTitle: place.title,
+                })
+            }
+        >
+            <View style={styles.itemContainer}>
+                <Image
+                    style={styles.image}
+                    source={{
+                        uri:
+                            place.imageUri ||
+                            "https://snack-web-player.s3.us-west-1.amazonaws.com/v2/42/static/media/react-native-logo.79778b9e.png",
+                    }}
+                />
+                <Text style={styles.header}>{place.title}</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 

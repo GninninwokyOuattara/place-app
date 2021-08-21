@@ -6,14 +6,21 @@ import { Place } from "../models/Place";
 import { addPlace } from "../stores/place-actions";
 import { NavProps } from "../types";
 
+import ImgPicker from "../components/ImgPicker";
+
 const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
+    const [selectedImage, setSelectImage] = useState("");
+
+    const onSelectedImage = (imageUri: string) => {
+        setSelectImage(imageUri);
+    };
 
     const handleSave = useCallback(() => {
-        dispatch(addPlace(new Place(title)));
+        dispatch(addPlace(title, selectedImage));
         navigation.goBack();
-    }, [dispatch, title]);
+    }, [dispatch, title, selectedImage]);
 
     return (
         <View style={styles.container}>
@@ -25,6 +32,7 @@ const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
                     onChangeText={(value) => setTitle(value)}
                 />
             </View>
+            <ImgPicker onSelectedImage={onSelectedImage} />
             <Button
                 title="Save Place"
                 color={Colors.primary}

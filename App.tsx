@@ -10,8 +10,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import MainNavigator from "./navigators/MainNavigator";
 
 import placeReducer from "./stores/place-reducer";
+import { init } from "./helpers/db";
 
 enableScreens();
+
+init()
+    .then((success) => {
+        console.log(success);
+    })
+    .catch((error) => console.log(error));
 
 export const rootReducer = combineReducers({
     place: placeReducer,
