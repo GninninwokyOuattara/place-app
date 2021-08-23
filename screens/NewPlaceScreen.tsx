@@ -1,5 +1,12 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, Button, TextInput } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Button,
+    TextInput,
+    ScrollView,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
 import { Place } from "../models/Place";
@@ -7,6 +14,7 @@ import { addPlace } from "../stores/place-actions";
 import { NavProps } from "../types";
 
 import ImgPicker from "../components/ImgPicker";
+import LocationPicker from "../components/LocationPicker";
 
 const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -23,7 +31,7 @@ const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
     }, [dispatch, title, selectedImage]);
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} contentInset={{ bottom: 100 }}>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputTitle}>Title</Text>
                 <TextInput
@@ -33,12 +41,13 @@ const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
                 />
             </View>
             <ImgPicker onSelectedImage={onSelectedImage} />
+            <LocationPicker />
             <Button
                 title="Save Place"
                 color={Colors.primary}
                 onPress={handleSave}
             />
-        </View>
+        </ScrollView>
     );
 };
 
@@ -46,6 +55,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 10,
+        // marginBottom: 10,
     },
     inputContainer: {
         alignSelf: "center",
