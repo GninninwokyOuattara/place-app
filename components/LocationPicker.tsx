@@ -8,7 +8,7 @@ import {
     Image,
 } from "react-native";
 import * as Location from "expo-location";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 
 const LocationPicker = () => {
     const [isLoading, setIsloading] = useState(false);
@@ -41,10 +41,19 @@ const LocationPicker = () => {
                 region={{
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.0122,
+                    latitudeDelta: 0.0922,
                     longitudeDelta: 0.0221,
                 }}
-            />
+            >
+                <Marker
+                    key={1}
+                    title={"Your position"}
+                    coordinate={{
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                    }}
+                />
+            </MapView>
         );
     }
 
