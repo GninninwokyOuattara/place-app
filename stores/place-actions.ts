@@ -1,11 +1,32 @@
+import axios from "axios";
 import { Place } from "../models/Place";
 import * as FileSystem from "expo-file-system";
 import { insertPlace, getPlaces } from "../helpers/db";
+import { MAPBOX_TOKEN } from "@env";
+
+import { MarkerPos } from "../types";
 
 export const ADD_PLACE = "ADD_PLACE";
 export const FETCH_PLACES = "FETCH_PLACES";
 
-export const addPlace = (title: string, selectedImage: string) => {
+export const locationToAddress = async (lat: number, lng: number) => {
+    console.log(lat, lng);
+    let res: any;
+    try {
+        res = await axios.get(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_TOKEN}`
+        );
+        return res.data.features[0].place_name;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const addPlace = (
+    title: string,
+    selectedImage: string,
+    selectedLocation: MarkerPos
+) => {
     return async (dispatch: any) => {
         try {
             const imageName = selectedImage.split("/").pop();
@@ -13,22 +34,26 @@ export const addPlace = (title: string, selectedImage: string) => {
 
             if (FileSystem.documentDirectory) {
                 path = FileSystem.documentDirectory + imageName;
+                const address = await locationToAddress(
+                    selectedLocation.latitude,
+                    selectedLocation.longitude
+                );
 
                 const dbResult: any = await insertPlace(
                     title,
                     path,
-                    "dummy_address",
-                    1.42,
-                    42.1
+                    address,
+                    selectedLocation.latitude,
+                    selectedLocation.longitude
                 );
 
                 const newPlace = new Place(
                     dbResult.insertId.toString(),
                     title,
                     path,
-                    "address",
-                    123,
-                    456
+                    address,
+                    selectedLocation.latitude,
+                    selectedLocation.longitude
                 );
 
                 dispatch({
