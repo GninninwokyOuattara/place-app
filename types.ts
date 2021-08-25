@@ -11,7 +11,10 @@ export type RootStackParamList = {
     Home: undefined;
     PlaceDetails: { placeTitle: string; placeId: string } | undefined;
     NewPlace: undefined;
-    Map: { setSelectedLocation: any } | undefined;
+    Map:
+        | { setSelectedLocation: any }
+        | { lat: number; lng: number; latDelta: number; lngDelta: number }
+        | undefined;
 };
 
 export type ScreenNavigationProp = StackNavigationProp<
