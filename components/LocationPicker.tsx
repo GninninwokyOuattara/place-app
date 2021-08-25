@@ -9,8 +9,16 @@ import {
 } from "react-native";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
+import { MarkerPos } from "../types";
 
-const LocationPicker = () => {
+interface props {
+    selectedLocation: MarkerPos | undefined;
+    setSelectedLocation: any;
+}
+const LocationPicker: React.FC<props> = ({
+    selectedLocation,
+    setSelectedLocation,
+}) => {
     const [isLoading, setIsloading] = useState(false);
     const [location, setLocation] = useState<null | Location.LocationObject>(
         null
@@ -26,21 +34,24 @@ const LocationPicker = () => {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        console.log(location);
-        setIsloading(false);
         setLocation(location);
+        setSelectedLocation({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        });
+        setIsloading(false);
     };
 
     let renderedContent: JSX.Element;
-    if (!location) {
+    if (!selectedLocation) {
         renderedContent = <Text>{"No location picked yet"}</Text>;
     } else {
         renderedContent = (
             <MapView
                 style={styles.map}
                 region={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
+                    latitude: selectedLocation.latitude,
+                    longitude: selectedLocation.longitude,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0221,
                 }}
@@ -49,8 +60,8 @@ const LocationPicker = () => {
                     key={1}
                     title={"Your position"}
                     coordinate={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
+                        latitude: selectedLocation.latitude,
+                        longitude: selectedLocation.longitude,
                     }}
                 />
             </MapView>

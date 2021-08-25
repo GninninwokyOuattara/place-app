@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
     View,
     Text,
@@ -11,15 +11,17 @@ import { useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
 import { Place } from "../models/Place";
 import { addPlace } from "../stores/place-actions";
-import { NavProps } from "../types";
+import { MarkerPos, NavProps } from "../types";
 
 import ImgPicker from "../components/ImgPicker";
 import LocationPicker from "../components/LocationPicker";
+import * as Location from "expo-location";
 
 const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [selectedImage, setSelectImage] = useState("");
+    const [selectedLocation, setSelectedLocation] = useState<MarkerPos>();
 
     const onSelectedImage = (imageUri: string) => {
         setSelectImage(imageUri);
@@ -41,7 +43,18 @@ const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
                 />
             </View>
             <ImgPicker onSelectedImage={onSelectedImage} />
-            <LocationPicker />
+            <LocationPicker
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+            />
+            <Button
+                title={"Pick Location on Map"}
+                onPress={() =>
+                    navigation.navigate("Map", {
+                        setSelectedLocation,
+                    })
+                }
+            />
             <Button
                 title="Save Place"
                 color={Colors.primary}
