@@ -17,6 +17,8 @@ import ImgPicker from "../components/ImgPicker";
 import LocationPicker from "../components/LocationPicker";
 import * as Location from "expo-location";
 
+import { locationToAddress } from "../stores/place-actions";
+
 const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
@@ -28,9 +30,9 @@ const NewPlaceScreen: React.FC<NavProps> = ({ navigation }) => {
     };
 
     const handleSave = useCallback(() => {
-        dispatch(addPlace(title, selectedImage));
+        dispatch(addPlace(title, selectedImage, selectedLocation!));
         navigation.goBack();
-    }, [dispatch, title, selectedImage]);
+    }, [dispatch, title, selectedImage, selectedLocation]);
 
     return (
         <ScrollView style={styles.container} contentInset={{ bottom: 100 }}>

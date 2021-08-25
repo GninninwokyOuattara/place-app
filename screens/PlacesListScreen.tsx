@@ -32,16 +32,7 @@ const PlacesListScreen: React.FC<NavProps> = ({ navigation }) => {
     }, [navigation]);
     return (
         <View>
-            <Button
-                title="Click Me"
-                onPress={() => navigation.navigate("Map")}
-            />
             <PlaceList places={places} navigation={navigation} />
-            {/* <Text>PlacesListScreen</Text> */}
-            {/* <Button
-        //         title="Go to details"
-        //         onPress={() => navigation.navigate("PlaceDetails")}
-        //     /> */}
         </View>
     );
 };

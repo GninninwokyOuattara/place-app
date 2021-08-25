@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import {
     View,
     Text,
@@ -14,7 +14,6 @@ import { ScreenNavigationProp, NavProps, NavProps2 } from "../types";
 const MapScreen: React.FC<NavProps2> = ({ navigation, route }) => {
     const { location, error } = useLocation();
     const [markerPos, setMarkerPos] = useState<null | MarkerPos>(null);
-    // const setSelectedLocation = navigation.
     useLayoutEffect(() => {
         if (route.params) {
             const routeParams = route.params as any;
