@@ -66,3 +66,21 @@ export const getPlaces = () => {
         }
     );
 };
+
+export const getPlace = (itemId: string) => {
+    return new Promise((resolve: (value: any) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM places WHERE id = ?",
+                [itemId],
+                (_, res: any) => {
+                    return resolve(res.rows._array[0]);
+                },
+                (_, err) => {
+                    reject(err);
+                    return false;
+                }
+            );
+        });
+    });
+};
