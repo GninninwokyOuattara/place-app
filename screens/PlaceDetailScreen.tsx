@@ -45,7 +45,17 @@ const PlaceDetailScreen: React.FC<NavProps> = ({ navigation, route }) => {
     return (
         <ScrollView style={styles.container}>
             <Image source={{ uri: placeData.imageUri }} style={styles.image} />
-            <View style={styles.previewContainer}>
+            <TouchableOpacity
+                style={styles.previewContainer}
+                onPress={() =>
+                    navigation.navigate("Map", {
+                        lat: placeData.lat,
+                        lng: placeData.lng,
+                        latDelta: 0.005,
+                        lngDelta: 0.005,
+                    })
+                }
+            >
                 <View style={styles.previewContainer2}>
                     <View style={styles.mapPreview}>
                         <View style={styles.addressContainer}>
@@ -65,7 +75,7 @@ const PlaceDetailScreen: React.FC<NavProps> = ({ navigation, route }) => {
                         />
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
