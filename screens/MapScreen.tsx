@@ -12,12 +12,12 @@ import { MarkerPos } from "../types";
 import { ScreenNavigationProp, NavProps, NavProps2 } from "../types";
 
 const MapScreen: React.FC<NavProps2> = ({ navigation, route }) => {
+    const routeParams = route.params;
     const { location, error } = useLocation();
     const [markerPos, setMarkerPos] = useState<null | MarkerPos>(null);
     useLayoutEffect(() => {
-        if (route.params) {
-            const routeParams = route.params as any;
-            const { setSelectedLocation } = routeParams;
+        if (route.params && "setSelectedLocation" in route.params) {
+            const { setSelectedLocation } = routeParams as any;
             navigation.setOptions({
                 headerRight: () => {
                     return (
@@ -34,7 +34,28 @@ const MapScreen: React.FC<NavProps2> = ({ navigation, route }) => {
         }
     }, [location, markerPos]);
 
-    if (location) {
+    if (routeParams && "lat" in routeParams) {
+        return (
+            <View style={styles.container}>
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: routeParams.lat,
+                        longitude: routeParams.lng,
+                        latitudeDelta: routeParams.latDelta,
+                        longitudeDelta: routeParams.lngDelta,
+                    }}
+                    onPress={(event) => {
+                        setMarkerPos(event.nativeEvent.coordinate);
+                    }}
+                >
+                    {markerPos ? (
+                        <Marker key={1} coordinate={{ ...markerPos }} />
+                    ) : null}
+                </MapView>
+            </View>
+        );
+    } else if (location) {
         return (
             <View style={styles.container}>
                 <MapView
