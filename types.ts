@@ -1,4 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { RouteProp } from "@react-navigation/native";
 import { Place } from "./models/Place";
 import { store } from "./App";
@@ -9,7 +11,7 @@ export type RootStackParamList = {
     Home: undefined;
     PlaceDetails: { placeTitle: string; placeId: string } | undefined;
     NewPlace: undefined;
-    Map: undefined;
+    Map: { setSelectedLocation: any } | undefined;
 };
 
 export type ScreenNavigationProp = StackNavigationProp<
@@ -23,6 +25,8 @@ export type NavProps = {
     navigation: ScreenNavigationProp;
     route: ScreenRouteProp;
 };
+
+export type NavProps2 = NativeStackScreenProps<RootStackParamList, "Map">;
 
 // Reducer Type
 
@@ -39,3 +43,5 @@ export interface ReducerActionsParamsList {
     type: string;
     places: Place[];
 }
+
+export type MarkerPos = { latitude: number; longitude: number };
