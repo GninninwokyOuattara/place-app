@@ -27,7 +27,10 @@ const PlaceItem: React.FC<props> = ({ place, navigation }) => {
                             "https://snack-web-player.s3.us-west-1.amazonaws.com/v2/42/static/media/react-native-logo.79778b9e.png",
                     }}
                 />
-                <Text style={styles.header}>{place.title}</Text>
+                <View>
+                    <Text style={styles.header}>{place.title}</Text>
+                    <Text style={styles.address}>{place.address}</Text>
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -59,6 +62,10 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 20,
         marginTop: 15,
+    },
+    address: {
+        fontSize: 20,
+        color: "#CCC",
     },
 });
 
